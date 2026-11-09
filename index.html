@@ -45,14 +45,15 @@
   /* hero: the reel comes first */
   .hero{padding:20px 0 0}
   .reel{position:relative;border-radius:24px;overflow:hidden;aspect-ratio:16/9;background:#141414;max-height:78vh;width:100%}
-  .reel video,.reel iframe{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border:0}
+  .reel video,.reel iframe{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border:0;z-index:0}
+  .reel .lower3,.reel .sound,.reel .reel-tabs{z-index:2}
   .reel-empty{position:absolute;inset:0;display:grid;place-items:center;text-align:center;color:#8a8a8a;font-size:14px;padding:24px}
   .reel-empty b{display:block;color:#fff;font-size:clamp(28px,5vw,56px);letter-spacing:-.03em;margin-bottom:8px}
   .lower3{position:absolute;left:20px;bottom:20px;display:flex;align-items:center;gap:12px;background:rgba(255,255,255,.95);padding:8px 18px 8px 8px;border-radius:999px;box-shadow:0 8px 30px rgba(0,0,0,.25);animation:slide .7s cubic-bezier(.2,.9,.3,1.2) .3s both}
   .lower3 img{width:44px;height:44px;border-radius:50%;object-fit:cover;box-shadow:0 0 0 3px var(--accent)}
   .lower3 b{display:block;font-size:15px;line-height:1.2}
   .lower3 span{font-size:12px;color:var(--muted)}
-  @keyframes slide{from{opacity:0;transform:translateX(-24px)}to{opacity:1;transform:none}}
+  @keyframes slide{from{transform:translateX(-24px)}to{transform:none}}
   .sound{position:absolute;right:20px;bottom:20px;display:flex;align-items:center;gap:8px;background:var(--accent);color:var(--accent-ink);border:0;padding:10px 16px;border-radius:999px;font-weight:700;font-size:13px}
   .reel-tabs{position:absolute;top:16px;left:16px;display:flex;gap:6px;background:rgba(0,0,0,.45);backdrop-filter:blur(8px);padding:5px;border-radius:999px}
   .reel-tabs button{background:none;border:0;color:#ddd;font-size:13px;font-weight:600;padding:7px 14px;border-radius:999px}
@@ -105,7 +106,11 @@
   .contact{margin:96px 0 0;background:var(--ink);color:#fff;border-radius:28px;padding:64px 48px;display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
   .contact h2{margin-top:14px}
   .contact .sub{color:#a3a3a3}
-  .direct{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px}
+  .reach{display:grid;gap:10px;margin-top:24px}
+  .reach a{display:flex;justify-content:space-between;align-items:center;gap:12px;border:1px solid #333;border-radius:14px;padding:14px 18px;transition:border-color .15s,background .15s}
+  .reach a:hover{border-color:var(--accent);background:#1a1a1a}
+  .reach span{font-size:13px;color:#a3a3a3}
+  .reach b{font-size:17px;letter-spacing:-.01em;word-break:break-all;text-align:right}
   .contact .btn-light{background:transparent;color:#fff;border-color:#3a3a3a}
   form{display:grid;gap:12px}
   label{font-size:13px;color:#a3a3a3;display:grid;gap:6px}
@@ -150,8 +155,10 @@
     .reel{border-radius:16px;aspect-ratio:4/5}
     .lower3{left:12px;bottom:12px;padding-right:14px}
     .lower3 img{width:36px;height:36px}
-    .sound{right:12px;bottom:auto;top:12px;padding:8px 12px}
-    .reel-tabs{top:auto;bottom:72px;left:12px}
+    .sound{right:12px;bottom:14px;padding:8px 12px}
+    .reel-tabs{top:12px;left:12px}
+    .reel-tabs button{padding:6px 11px;font-size:12px}
+    .lower3 span{display:none}
     .grid{grid-template-columns:1fr;gap:16px}
     .cover{aspect-ratio:1/1}
     .skills{grid-template-columns:1fr}
@@ -170,15 +177,16 @@
 const SITE = {
   name: "Shubham",
   role: "Video Editor · Ads, UGC & YouTube",
-  whatsapp: "919999999999",            // country code + number, no + or spaces
-  email: "hello@example.com",
+  whatsapp: "919004872307",            // country code + number, no + or spaces
+  phone: "+91 90048 72307",            // shown on the page, opens WhatsApp when clicked
+  email: "gaushubham9004@gmail.com",
   instagram: "https://instagram.com/yourhandle",
   youtube: "https://youtube.com/@yourhandle",
   linkedin: "https://linkedin.com/in/yourhandle",
   // One reel per kind of client. Use a file (src) OR a YouTube video ID (youtube).
   reels: [
-    { label: "Brand & ads reel", src: "videos/reel-brands.mp4", youtube: "" },
-    { label: "Creator reel",     src: "videos/reel-creators.mp4", youtube: "" },
+    { label: "Brand ads · 14 hooks", src: "videos/reel-brands.mp4", poster: "videos/reel-brands.jpg" },
+    { label: "Creator & YouTube",    src: "videos/reel-creators.mp4", poster: "videos/reel-creators.jpg" },
   ],
 };
 
@@ -186,20 +194,37 @@ const SITE = {
    type: "ads" | "ugc" | "reels" | "youtube"   (drives the label + filter)
    role: what YOU did on it.   did: one line on the result or the idea.
    cover: optional image; otherwise the first clip is used.
-   clips: each { label, src: "videos/x.mp4" } or { label, youtube: "VIDEO_ID" }, add tall:true for 9:16 */
+   clips: each { label, src: "videos/x.mp4" } or { label, youtube: "VIDEO_ID" }, add tall:true for 9:16
+   v("name", "label") is a shortcut for videos/name.mp4 with its poster videos/name.jpg */
+const v = (name, label, tall = true) => ({ label, src: `videos/${name}.mp4`, poster: `videos/${name}.jpg`, tall });
 const PROJECTS = [
-  { title: "Skincare brand · AI UGC series", client: "Ayurvedic skincare brand", type: "ugc",
-    role: "Script, AI generation, edit, sound", did: "Testimonial-style ads made with AI creators, cut with 3 hook variants each for Meta testing.",
-    clips: [ { label: "Hook A", src: "videos/kc-1.mp4", tall: true }, { label: "Hook B", src: "videos/kc-2.mp4", tall: true }, { label: "Full ad", src: "videos/kc-3.mp4", tall: true } ] },
-  { title: "Launch ad", client: "D2C brand", type: "ads",
-    role: "Edit, motion text, sound design", did: "Fast-paced product launch ad built around a 2-second hook.",
-    clips: [ { label: "Main cut", src: "videos/ad-1.mp4", tall: true }, { label: "15s cutdown", src: "videos/ad-2.mp4", tall: true } ] },
-  { title: "Podcast clips", client: "Creator", type: "reels",
-    role: "Edit, captions, sound", did: "Long podcast turned into short reels with punchy captions and B-roll.",
-    clips: [ { label: "Clip 1", src: "videos/pod-1.mp4", tall: true }, { label: "Clip 2", src: "videos/pod-2.mp4", tall: true } ] },
-  { title: "YouTube vlog", client: "Creator", type: "youtube",
-    role: "Edit, colour, sound design", did: "Story-led vlog edit with music changes and retention-focused pacing.",
-    clips: [ { label: "Full video", youtube: "" } ] },
+  { title: "Kumkumadi Cream · Podcast ad series", client: "RareLife", type: "ads", cover: "videos/kc52.jpg",
+    role: "Edit, captions, B-roll, sound", did: "Host-and-guest podcast ads: tight cuts, B-roll on every claim, keyword captions, a clean voice chain.",
+    clips: [ v("kc52", "Rohan podcast"), v("kc09", "Saree podcast"), v("kc17", "Botox podcast") ] },
+  { title: "Kumkumadi Cream · 4 hooks, 1 body", client: "RareLife", type: "ads", cover: "videos/kc44-h1.jpg",
+    role: "Edit, cutouts, captions, sound", did: "One ad body with four different openings, so Meta can test which hook stops the scroll. Each cut shows the first 15 seconds.",
+    clips: [ v("kc44-h1", "Hook 1"), v("kc44-h2", "Hook 2"), v("kc44-h3", "Hook 3"), v("kc44-h4", "Hook 4"), v("kc44-full", "Full ad") ] },
+  { title: "Kumkumadi Cream · Doctor explainer formats", client: "RareLife", type: "ads", cover: "videos/kc47.jpg",
+    role: "Edit, motion graphics, captions", did: "Four formats from one product: a tier-list ranking, a marker-on-skin demo, a guess-her-age hook and a myth-buster whiteboard.",
+    clips: [ v("kc47", "Tier list"), v("kc60", "Marker demo"), v("kc57", "Guess her age"), v("kc46", "Myth-buster") ] },
+  { title: "Kumkumadi Cream · UGC & festive", client: "RareLife", type: "ugc", cover: "videos/kc73.jpg",
+    role: "Edit, motion text, sound design", did: "Creator-style ads: notification banners that swipe away, karaoke captions, and a host cut out over full-screen B-roll.",
+    clips: [ v("kc73", "Blocking list"), v("kc74", "Festive skin prep"), v("kc49", "Cutout anchor") ] },
+  { title: "Nivara Oil · UGC ads", client: "RareLife", type: "ugc", cover: "videos/co112.jpg",
+    role: "Edit, captions, sound", did: "Hair-oil UGC: offer-led skits, a 21-day transformation diary and talking-head testimonials.",
+    clips: [ v("co112", "Offer skit"), v("co108", "Testimonial"), v("co81", "Hair growth"), v("to28", "21-day diary") ] },
+  { title: "Neck Cream · UGC ads", client: "RareLife", type: "ugc", cover: "videos/trc05.jpg",
+    role: "Edit, 3D skin B-roll, captions", did: "Testimonial and expert-led ads with 3D skin animations to explain how the ingredients work.",
+    clips: [ v("trc05", "Mom's advice"), v("trc02", "Podcast"), v("nc02", "Pharmacy") ] },
+  { title: "News & business explainers", client: "Aevy TV", type: "youtube", cover: "videos/ratan.jpg",
+    role: "Edit, motion graphics, maps & charts", did: "YouTube explainers built on animated maps, timelines and charts to keep complex topics easy to follow.",
+    clips: [ v("ratan", "Ratan Tata", false), v("election", "US Election", false), v("brazil", "US vs Brazil", false), v("credit", "Credit score", false) ] },
+  { title: "Story-led YouTube videos", client: "Aevy TV", type: "youtube", cover: "videos/trapped.jpg",
+    role: "Edit, sound design, pacing", did: "Narrative videos where the pacing, music changes and sound design carry the story.",
+    clips: [ v("trapped", "Trapped in the Scroll", false), v("gulab", "Gulab Jamun", false) ] },
+  { title: "Short-form, podcasts & 3D", client: "Aevy TV", type: "reels", cover: "videos/elon.jpg",
+    role: "Edit, captions, 3D animation", did: "Podcast moments cut into shorts with visual B-roll, plus a 3D product spot.",
+    clips: [ v("elon", "Elon Musk podcast"), v("mrbeast", "MrBeast podcast", false), v("lipstick", "3D lipstick spot") ] },
 ];
 </script>
 
@@ -280,9 +305,9 @@ const PROJECTS = [
       <span class="eyebrow">Contact</span>
       <h2>Got a project? Let's make it <span class="serif">hit.</span></h2>
       <p class="sub">Tell me what you need. I usually reply within a few hours.</p>
-      <div class="direct">
-        <a class="btn btn-accent js-wa" href="#">WhatsApp me</a>
-        <a class="btn btn-light js-mail" href="#">Email me</a>
+      <div class="reach">
+        <a class="js-wa" href="#"><span>WhatsApp</span><b class="js-phone">+91 90048 72307</b></a>
+        <a class="js-mail" href="#"><span>Email</span><b class="js-email">gaushubham9004@gmail.com</b></a>
       </div>
     </div>
     <form id="brief">
@@ -327,6 +352,8 @@ const PROJECTS = [
   $$(".js-wa").forEach(a => { a.href = wa(`Hi ${SITE.name}, I saw your portfolio and want to talk about a video project.`); a.target = "_blank"; a.rel = "noopener"; });
   $$(".js-mail").forEach(a => a.href = `mailto:${SITE.email}`);
   $(".js-ig").href = SITE.instagram; $(".js-yt").href = SITE.youtube; $(".js-li").href = SITE.linkedin;
+  $$(".js-phone").forEach(e => e.textContent = SITE.phone);
+  $$(".js-email").forEach(e => e.textContent = SITE.email);
   $$(".js-name").forEach(e => e.textContent = SITE.name);
   $$(".js-role").forEach(e => e.textContent = SITE.role);
   $("#yr").textContent = new Date().getFullYear();
@@ -355,6 +382,7 @@ const PROJECTS = [
       $("#reelEmpty").hidden = true; soundBtn.hidden = true;
     } else {
       soundBtn.hidden = true;
+      if (r.poster) reelVideo.poster = r.poster;
       reelVideo.src = r.src;
       reelVideo.play().catch(() => {});
     }
@@ -412,7 +440,7 @@ const PROJECTS = [
   function playClip(c) {
     stage.className = "stage" + (c.tall ? " tall" : "");
     if (c.youtube) stage.innerHTML = `<iframe src="https://www.youtube.com/embed/${encodeURIComponent(c.youtube)}?autoplay=1&rel=0" allow="autoplay; fullscreen" allowfullscreen></iframe>`;
-    else if (c.src) stage.innerHTML = `<video src="${esc(c.src)}" controls autoplay playsinline></video>`;
+    else if (c.src) stage.innerHTML = `<video src="${esc(c.src)}" ${c.poster ? `poster="${esc(c.poster)}"` : ""} controls autoplay playsinline></video>`;
     else stage.innerHTML = `<div style="padding:80px 20px;color:#888">This clip hasn't been added yet.</div>`;
   }
   function openProject(i) {
