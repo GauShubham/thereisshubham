@@ -1,0 +1,411 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Shubham · Video Editor</title>
+<meta name="description" content="Shubham — video editor for D2C brands and creators. Ads, UGC, reels and YouTube edits.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#fafaf8; --surface:#ffffff; --ink:#111111; --muted:#6b6b6b; --line:#e7e6e1;
+    --accent:#ff5a1f; --soft:#f1f0eb; --radius:18px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.5;-webkit-font-smoothing:antialiased}
+  a{color:inherit;text-decoration:none}
+  img,video{display:block;max-width:100%}
+  .wrap{max-width:1160px;margin:0 auto;padding:0 24px}
+  .serif{font-family:"Instrument Serif",serif;font-weight:400;font-style:italic}
+
+  /* nav */
+  header{position:sticky;top:0;z-index:20;background:rgba(250,250,248,.85);backdrop-filter:blur(12px);border-bottom:1px solid transparent;transition:border-color .2s}
+  header.scrolled{border-color:var(--line)}
+  nav{display:flex;align-items:center;justify-content:space-between;height:68px}
+  .logo{font-weight:700;font-size:18px;letter-spacing:-.02em}
+  .logo span{color:var(--accent)}
+  .links{display:flex;gap:28px;font-size:14px;color:var(--muted)}
+  .links a:hover{color:var(--ink)}
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:12px 20px;border-radius:999px;font-weight:600;font-size:14px;transition:transform .15s,background .15s}
+  .btn:hover{transform:translateY(-1px)}
+  .btn-dark{background:var(--ink);color:#fff}
+  .btn-light{background:var(--surface);border:1px solid var(--line)}
+  .nav-cta{padding:9px 16px}
+
+  /* hero */
+  .hero{padding:80px 0 56px}
+  .status{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);background:var(--surface);border:1px solid var(--line);padding:6px 12px;border-radius:999px}
+  .dot{width:8px;height:8px;border-radius:50%;background:#22c55e;box-shadow:0 0 0 4px rgba(34,197,94,.15)}
+  h1{font-size:clamp(40px,7vw,84px);line-height:1.02;letter-spacing:-.04em;font-weight:700;margin:24px 0 20px;max-width:14ch}
+  h1 .serif{letter-spacing:-.01em}
+  .lead{font-size:18px;color:var(--muted);max-width:52ch}
+  .hero-ctas{display:flex;gap:12px;margin-top:32px;flex-wrap:wrap}
+
+  .reel{margin-top:56px;position:relative;border-radius:24px;overflow:hidden;aspect-ratio:16/9;background:linear-gradient(135deg,#1c1c1c,#3a3a3a);cursor:pointer}
+  .reel video{width:100%;height:100%;object-fit:cover}
+  .reel-label{position:absolute;left:24px;bottom:24px;display:flex;align-items:center;gap:12px;color:#fff;font-weight:600}
+  .play{width:56px;height:56px;border-radius:50%;background:#fff;display:grid;place-items:center;transition:transform .2s}
+  .reel:hover .play{transform:scale(1.08)}
+  .play svg{width:20px;height:20px;margin-left:3px}
+
+  /* stats */
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;margin:56px 0 0}
+  .stat{background:var(--surface);padding:24px}
+  .stat b{display:block;font-size:32px;letter-spacing:-.03em}
+  .stat span{font-size:13px;color:var(--muted)}
+
+  /* sections */
+  section{padding:96px 0 0}
+  section,#contact{scroll-margin-top:72px}
+  .eyebrow{font-size:13px;font-weight:600;color:var(--accent);text-transform:uppercase;letter-spacing:.08em}
+  h2{font-size:clamp(32px,4.5vw,52px);letter-spacing:-.035em;line-height:1.05;margin:10px 0 14px;font-weight:700}
+  .sub{color:var(--muted);max-width:56ch}
+  .head-row{display:flex;justify-content:space-between;align-items:end;gap:24px;flex-wrap:wrap;margin-bottom:32px}
+
+  /* work */
+  .filters{display:flex;gap:8px;flex-wrap:wrap}
+  .filter{border:1px solid var(--line);background:var(--surface);padding:8px 16px;border-radius:999px;font:500 14px Inter,sans-serif;cursor:pointer;color:var(--muted)}
+  .filter.active{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+  .card{cursor:pointer}
+  .card.wide{grid-column:span 2}
+  .thumb{position:relative;border-radius:var(--radius);overflow:hidden;aspect-ratio:9/16;background:var(--soft)}
+  .card.wide .thumb{aspect-ratio:9/8}
+  .thumb video,.thumb img{width:100%;height:100%;object-fit:cover;transition:transform .4s}
+  .card:hover .thumb video,.card:hover .thumb img{transform:scale(1.04)}
+  .ph{position:absolute;inset:0;display:grid;place-items:center;color:rgba(0,0,0,.35);font-size:13px;font-weight:500}
+  .dur{position:absolute;right:12px;bottom:12px;background:rgba(0,0,0,.65);color:#fff;font-size:12px;padding:3px 8px;border-radius:999px}
+  .meta{padding:12px 4px 0}
+  .meta h3{font-size:15px;font-weight:600;letter-spacing:-.01em}
+  .meta p{font-size:13px;color:var(--muted)}
+  .card.hide{display:none}
+
+  /* services */
+  .cards3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .svc{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:28px}
+  .svc .ico{font-size:26px}
+  .svc h3{font-size:20px;letter-spacing:-.02em;margin:16px 0 8px}
+  .svc p{color:var(--muted);font-size:15px}
+  .svc ul{list-style:none;margin-top:18px;display:grid;gap:8px;font-size:14px}
+  .svc li::before{content:"→ ";color:var(--accent)}
+
+  /* process */
+  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;counter-reset:s}
+  .step{border-top:2px solid var(--ink);padding-top:18px}
+  .step b{font-size:13px;color:var(--muted)}
+  .step h3{font-size:18px;margin:6px 0 6px;letter-spacing:-.02em}
+  .step p{font-size:14px;color:var(--muted)}
+
+  .tools{display:flex;flex-wrap:wrap;gap:8px;margin-top:40px}
+  .tools span{font-size:13px;padding:6px 12px;border:1px solid var(--line);border-radius:999px;background:var(--surface);color:var(--muted)}
+
+  /* about */
+  .about{display:grid;grid-template-columns:1fr 1.3fr;gap:48px;align-items:center}
+  .portrait{aspect-ratio:4/5;border-radius:24px;background:var(--soft);display:grid;place-items:center;color:var(--muted);font-size:14px;overflow:hidden}
+  .portrait img{width:100%;height:100%;object-fit:cover}
+  .about p{font-size:17px;color:#333;margin-bottom:14px}
+
+  /* contact */
+  .contact{margin:96px 0 0;background:var(--ink);color:#fff;border-radius:28px;padding:72px 48px;text-align:center}
+  .contact h2{margin:12px auto 16px;max-width:16ch}
+  .contact .sub{color:#a3a3a3;margin:0 auto}
+  .contact .hero-ctas{justify-content:center}
+  .contact .btn-light{background:transparent;color:#fff;border-color:#3a3a3a}
+  .btn-accent{background:var(--accent);color:#fff}
+  footer{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:32px 0 40px;font-size:13px;color:var(--muted)}
+  footer .socials{display:flex;gap:20px}
+  footer a:hover{color:var(--ink)}
+
+  /* modal */
+  .modal{position:fixed;inset:0;background:rgba(10,10,10,.88);display:none;align-items:center;justify-content:center;z-index:50;padding:24px}
+  .modal.open{display:flex}
+  .modal-box{width:min(1000px,100%);max-height:90vh;display:flex;justify-content:center}
+  .modal-box video,.modal-box iframe{max-height:86vh;max-width:100%;border-radius:14px;background:#000;border:0}
+  .modal-box iframe{width:100%;aspect-ratio:16/9}
+  .modal-box.tall iframe{width:auto;height:86vh;aspect-ratio:9/16}
+  .close{position:absolute;top:18px;right:22px;color:#fff;font-size:32px;background:none;border:0;cursor:pointer;line-height:1}
+
+  .reveal{opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s ease}
+  .reveal.in{opacity:1;transform:none}
+
+  @media (max-width:900px){
+    .links{display:none}
+    .grid{grid-template-columns:repeat(2,1fr)}
+    .card.wide{grid-column:span 2}
+    .card.wide .thumb{aspect-ratio:16/9}
+    .cards3,.steps{grid-template-columns:1fr 1fr}
+    .about{grid-template-columns:1fr}
+    .portrait{max-width:360px}
+    .stats{grid-template-columns:1fr 1fr}
+  }
+  @media (max-width:560px){
+    .wrap{padding:0 16px}
+    .hero{padding:48px 0 32px}
+    .cards3,.steps{grid-template-columns:1fr}
+    .grid{gap:12px}
+    .contact{padding:56px 22px}
+    section{padding-top:72px}
+    .reel{border-radius:18px}
+  }
+  @media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     ✏️  EDIT YOUR DETAILS HERE (the rest of the page updates itself)
+     ============================================================ -->
+<script>
+const SITE = {
+  whatsapp: "919999999999",          // country code + number, no + or spaces
+  email: "hello@example.com",
+  instagram: "https://instagram.com/yourhandle",
+  youtube: "https://youtube.com/@yourhandle",
+  linkedin: "https://linkedin.com/in/yourhandle",
+  showreel: { src: "videos/showreel.mp4", youtube: "" }, // use a file OR a YouTube video ID
+};
+
+/* Your work. For each video use ONE of:
+     src:     "videos/file.mp4"   (a file in the videos folder, keep it under ~20 MB)
+     youtube: "dQw4w9WgXcQ"       (just the ID from the YouTube link; unlisted works)
+   poster: optional thumbnail image, e.g. "videos/file.jpg"
+   category: "ads" | "ugc" | "reels" | "youtube"
+   wide: true  -> 16:9 video (takes two columns). Leave it out for 9:16 vertical. */
+const WORK = [
+  { title: "Skincare · AI UGC testimonial", client: "D2C beauty brand", category: "ugc",     src: "videos/work1.mp4", duration: "0:45" },
+  { title: "Launch ad · hook test",         client: "Ayurvedic brand",  category: "ads",     src: "videos/work2.mp4", duration: "0:30" },
+  { title: "Podcast clip · captions",       client: "Creator",          category: "reels",   src: "videos/work3.mp4", duration: "0:58" },
+  { title: "Unboxing reel",                 client: "D2C brand",        category: "ugc",     src: "videos/work4.mp4", duration: "0:35" },
+  { title: "YouTube vlog edit",             client: "Travel creator",   category: "youtube", src: "videos/work5.mp4", duration: "12:40", wide: true },
+  { title: "Product skit ad",               client: "Food brand",       category: "ads",     src: "videos/work6.mp4", duration: "0:40" },
+  { title: "Talking head reel",             client: "Coach",            category: "reels",   src: "videos/work7.mp4", duration: "0:52" },
+  { title: "Brand film",                    client: "Lifestyle brand",  category: "youtube", src: "videos/work8.mp4", duration: "2:10", wide: true },
+];
+</script>
+
+<header id="top">
+  <div class="wrap">
+    <nav>
+      <a class="logo" href="#top">Shubham<span>.</span></a>
+      <div class="links">
+        <a href="#work">Work</a><a href="#services">Services</a><a href="#process">Process</a><a href="#about">About</a>
+      </div>
+      <a class="btn btn-dark nav-cta" href="#contact">Let's talk</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="hero" style="padding-top:0">
+    <div style="padding-top:72px">
+      <span class="status"><span class="dot"></span>Taking new projects this month</span>
+      <h1>Edits people <span class="serif">actually</span> watch till the end.</h1>
+      <p class="lead">I'm Shubham, a video editor for D2C brands and creators. Scroll-stopping ads, AI UGC, reels and YouTube videos with tight pacing, clean captions and sound that hits.</p>
+      <div class="hero-ctas">
+        <a class="btn btn-dark" href="#work">See my work ↓</a>
+        <a class="btn btn-light js-wa" href="#">WhatsApp me</a>
+      </div>
+    </div>
+
+    <div class="reel reveal" id="reel" role="button" aria-label="Play showreel">
+      <video id="reelVideo" muted loop playsinline preload="metadata"></video>
+      <div class="reel-label">
+        <span class="play"><svg viewBox="0 0 24 24" fill="#111"><path d="M7 4v16l13-8z"/></svg></span>
+        Watch showreel
+      </div>
+    </div>
+
+    <div class="stats reveal">
+      <div class="stat"><b>150+</b><span>videos edited</span></div>
+      <div class="stat"><b>25+</b><span>brands & creators</span></div>
+      <div class="stat"><b>48h</b><span>first cut delivery</span></div>
+      <div class="stat"><b>10M+</b><span>views generated</span></div>
+    </div>
+  </section>
+
+  <section id="work">
+    <div class="head-row">
+      <div>
+        <div class="eyebrow">Selected work</div>
+        <h2>Ads, UGC, reels <span class="serif">&</span> YouTube</h2>
+        <p class="sub">Tap any video to watch it with sound.</p>
+      </div>
+      <div class="filters" id="filters">
+        <button class="filter active" data-f="all">All</button>
+        <button class="filter" data-f="ads">Ads</button>
+        <button class="filter" data-f="ugc">UGC</button>
+        <button class="filter" data-f="reels">Reels</button>
+        <button class="filter" data-f="youtube">YouTube</button>
+      </div>
+    </div>
+    <div class="grid" id="grid"></div>
+  </section>
+
+  <section id="services">
+    <div class="eyebrow">Services</div>
+    <h2>What I can make for you</h2>
+    <p class="sub" style="margin-bottom:32px">For brands that need ads that sell, and creators who need content that keeps people watching.</p>
+    <div class="cards3">
+      <div class="svc reveal">
+        <div class="ico">📈</div>
+        <h3>Performance ads</h3>
+        <p>Meta and YouTube ads built around a strong hook, edited to convert.</p>
+        <ul><li>Multiple hook variants</li><li>Captions & safe zones</li><li>9:16, 4:5 and 1:1 exports</li></ul>
+      </div>
+      <div class="svc reveal">
+        <div class="ico">🤳</div>
+        <h3>UGC & AI UGC</h3>
+        <p>Testimonials, unboxings and rants that feel native to the feed.</p>
+        <ul><li>Real or AI-generated creators</li><li>Hinglish / English scripts</li><li>B-roll & product shots</li></ul>
+      </div>
+      <div class="svc reveal">
+        <div class="ico">🎬</div>
+        <h3>Reels & YouTube</h3>
+        <p>Short-form and long-form edits for creators who post every week.</p>
+        <ul><li>Retention-focused pacing</li><li>Motion text & sound design</li><li>Thumbnails on request</li></ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="process">
+    <div class="eyebrow">Process</div>
+    <h2>Simple, fast, no back-and-forth</h2>
+    <div class="steps" style="margin-top:32px">
+      <div class="step reveal"><b>01</b><h3>Brief</h3><p>A quick call or WhatsApp chat about your goal, audience and references.</p></div>
+      <div class="step reveal"><b>02</b><h3>First cut</h3><p>You get a first version within 48 hours of receiving the footage.</p></div>
+      <div class="step reveal"><b>03</b><h3>Revisions</h3><p>Clear feedback, quick changes, until it feels right.</p></div>
+      <div class="step reveal"><b>04</b><h3>Delivery</h3><p>Final files in every size you need, ready to post or run as ads.</p></div>
+    </div>
+    <div class="tools">
+      <span>Premiere Pro</span><span>DaVinci Resolve</span><span>After Effects</span><span>CapCut</span><span>Google Flow / Veo</span><span>ElevenLabs</span><span>ChatGPT</span>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="about">
+      <div class="portrait reveal" id="portrait">Add your photo: <code>&nbsp;videos/me.jpg</code></div>
+      <div class="reveal">
+        <div class="eyebrow">About</div>
+        <h2>Hi, I'm Shubham <span class="serif">👋</span></h2>
+        <p>I edit videos for D2C brands and creators. My job is simple: make people stop scrolling, keep watching, and do something at the end.</p>
+        <p>I've worked on ads, AI UGC, podcasts, reels and YouTube videos, from scripting and AI generation to the final edit, captions and sound.</p>
+        <p style="color:var(--muted);font-size:15px">Based in India · Working with clients everywhere</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="contact reveal" id="contact">
+    <div class="eyebrow">Contact</div>
+    <h2>Got footage? Let's make it <span class="serif">hit.</span></h2>
+    <p class="sub">Tell me what you're working on. I usually reply within a few hours.</p>
+    <div class="hero-ctas">
+      <a class="btn btn-accent js-wa" href="#">WhatsApp me</a>
+      <a class="btn btn-light js-mail" href="#">Email me</a>
+    </div>
+  </div>
+
+  <footer>
+    <span>© <span id="yr"></span> Shubham. All rights reserved.</span>
+    <div class="socials">
+      <a class="js-ig" href="#" target="_blank" rel="noopener">Instagram</a>
+      <a class="js-yt" href="#" target="_blank" rel="noopener">YouTube</a>
+      <a class="js-li" href="#" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+  </footer>
+</main>
+
+<div class="modal" id="modal" aria-hidden="true">
+  <button class="close" id="close" aria-label="Close">×</button>
+  <div class="modal-box" id="modalBox"></div>
+</div>
+
+<script>
+  // contact links
+  const waMsg = encodeURIComponent("Hi Shubham, I saw your portfolio and want to talk about a video project.");
+  document.querySelectorAll(".js-wa").forEach(a => { a.href = `https://wa.me/${SITE.whatsapp}?text=${waMsg}`; a.target = "_blank"; a.rel = "noopener"; });
+  document.querySelectorAll(".js-mail").forEach(a => a.href = `mailto:${SITE.email}`);
+  document.querySelector(".js-ig").href = SITE.instagram;
+  document.querySelector(".js-yt").href = SITE.youtube;
+  document.querySelector(".js-li").href = SITE.linkedin;
+  document.getElementById("yr").textContent = new Date().getFullYear();
+
+  // portrait (shows only if videos/me.jpg exists)
+  const pimg = new Image();
+  pimg.onload = () => { const p = document.getElementById("portrait"); p.textContent = ""; pimg.alt = "Shubham"; p.appendChild(pimg); };
+  pimg.src = "videos/me.jpg";
+
+  // showreel preview
+  const reelVideo = document.getElementById("reelVideo");
+  if (SITE.showreel.src) { reelVideo.src = SITE.showreel.src; reelVideo.play().catch(()=>{}); }
+  document.getElementById("reel").addEventListener("click", () => openVideo(SITE.showreel, true));
+
+  // work grid
+  const grid = document.getElementById("grid");
+  const labels = { ads:"Ad", ugc:"UGC", reels:"Reel", youtube:"YouTube" };
+  WORK.forEach((w, i) => {
+    const card = document.createElement("div");
+    card.className = "card reveal" + (w.wide ? " wide" : "");
+    card.dataset.cat = w.category;
+    const thumb = document.createElement("div");
+    thumb.className = "thumb";
+    thumb.innerHTML = `<div class="ph">${w.wide ? "16:9" : "9:16"} · add video</div>`;
+    if (w.poster) {
+      const img = new Image(); img.src = w.poster; img.alt = w.title; img.loading = "lazy";
+      img.onload = () => thumb.querySelector(".ph")?.remove();
+      thumb.prepend(img);
+    } else if (w.youtube) {
+      const img = new Image(); img.src = `https://i.ytimg.com/vi/${w.youtube}/hqdefault.jpg`; img.alt = w.title; img.loading = "lazy";
+      img.onload = () => thumb.querySelector(".ph")?.remove();
+      thumb.prepend(img);
+    } else if (w.src) {
+      const v = document.createElement("video");
+      v.muted = true; v.loop = true; v.playsInline = true; v.preload = "metadata";
+      v.src = w.src + "#t=0.5";
+      v.addEventListener("loadeddata", () => thumb.querySelector(".ph")?.remove());
+      card.addEventListener("mouseenter", () => v.play().catch(()=>{}));
+      card.addEventListener("mouseleave", () => v.pause());
+      thumb.prepend(v);
+    }
+    if (w.duration) thumb.insertAdjacentHTML("beforeend", `<span class="dur">${w.duration}</span>`);
+    card.appendChild(thumb);
+    card.insertAdjacentHTML("beforeend", `<div class="meta"><h3>${w.title}</h3><p>${labels[w.category] || ""} · ${w.client || ""}</p></div>`);
+    card.addEventListener("click", () => openVideo(w, !!w.wide));
+    grid.appendChild(card);
+  });
+
+  // filters
+  document.getElementById("filters").addEventListener("click", e => {
+    const b = e.target.closest(".filter"); if (!b) return;
+    document.querySelectorAll(".filter").forEach(x => x.classList.toggle("active", x === b));
+    const f = b.dataset.f;
+    document.querySelectorAll(".card").forEach(c => c.classList.toggle("hide", f !== "all" && c.dataset.cat !== f));
+  });
+
+  // modal player
+  const modal = document.getElementById("modal"), box = document.getElementById("modalBox");
+  function openVideo(item, wide) {
+    box.className = "modal-box" + (wide ? "" : " tall");
+    if (item.youtube) {
+      box.innerHTML = `<iframe src="https://www.youtube.com/embed/${item.youtube}?autoplay=1&rel=0" allow="autoplay; fullscreen" allowfullscreen></iframe>`;
+    } else if (item.src) {
+      box.innerHTML = `<video src="${item.src}" controls autoplay playsinline></video>`;
+    } else return;
+    modal.classList.add("open"); modal.setAttribute("aria-hidden","false");
+    reelVideo.pause();
+  }
+  function closeModal(){ modal.classList.remove("open"); modal.setAttribute("aria-hidden","true"); box.innerHTML = ""; if (SITE.showreel.src) reelVideo.play().catch(()=>{}); }
+  document.getElementById("close").onclick = closeModal;
+  modal.addEventListener("click", e => { if (e.target === modal) closeModal(); });
+  document.addEventListener("keydown", e => { if (e.key === "Escape") closeModal(); });
+
+  // header border + reveal on scroll
+  const header = document.querySelector("header");
+  addEventListener("scroll", () => header.classList.toggle("scrolled", scrollY > 8), { passive:true });
+  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), { threshold:.12 });
+  document.querySelectorAll(".reveal").forEach(el => io.observe(el));
+</script>
+</body>
+</html>
