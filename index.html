@@ -180,9 +180,8 @@ const SITE = {
   whatsapp: "919004872307",            // country code + number, no + or spaces
   phone: "+91 90048 72307",            // shown on the page, opens WhatsApp when clicked
   email: "gaushubham9004@gmail.com",
-  instagram: "https://instagram.com/yourhandle",
-  youtube: "https://youtube.com/@yourhandle",
-  linkedin: "https://linkedin.com/in/yourhandle",
+  instagram: "https://www.instagram.com/thereisshubham/",
+  linkedin: "https://www.linkedin.com/in/thereisshubham/",
   // One reel per kind of client. Use a file (src) OR a YouTube video ID (youtube).
   reels: [
     { label: "Brand ads · 14 hooks", src: "videos/reel-brands.mp4", poster: "videos/reel-brands.jpg" },
@@ -308,6 +307,8 @@ const PROJECTS = [
       <div class="reach">
         <a class="js-wa" href="#"><span>WhatsApp</span><b class="js-phone">+91 90048 72307</b></a>
         <a class="js-mail" href="#"><span>Email</span><b class="js-email">gaushubham9004@gmail.com</b></a>
+        <a class="js-ig" href="#" target="_blank" rel="noopener"><span>Instagram</span><b>@thereisshubham</b></a>
+        <a class="js-li" href="#" target="_blank" rel="noopener"><span>LinkedIn</span><b>in/thereisshubham</b></a>
       </div>
     </div>
     <form id="brief">
@@ -327,7 +328,6 @@ const PROJECTS = [
     <span>© <span id="yr"></span> <span class="js-name">Shubham</span></span>
     <div class="socials">
       <a class="js-ig" href="#" target="_blank" rel="noopener">Instagram</a>
-      <a class="js-yt" href="#" target="_blank" rel="noopener">YouTube</a>
       <a class="js-li" href="#" target="_blank" rel="noopener">LinkedIn</a>
     </div>
   </footer>
@@ -351,7 +351,7 @@ const PROJECTS = [
   const wa = text => `https://wa.me/${SITE.whatsapp}?text=${encodeURIComponent(text)}`;
   $$(".js-wa").forEach(a => { a.href = wa(`Hi ${SITE.name}, I saw your portfolio and want to talk about a video project.`); a.target = "_blank"; a.rel = "noopener"; });
   $$(".js-mail").forEach(a => a.href = `mailto:${SITE.email}`);
-  $(".js-ig").href = SITE.instagram; $(".js-yt").href = SITE.youtube; $(".js-li").href = SITE.linkedin;
+  $$(".js-ig").forEach(a => a.href = SITE.instagram); $$(".js-li").forEach(a => a.href = SITE.linkedin);
   $$(".js-phone").forEach(e => e.textContent = SITE.phone);
   $$(".js-email").forEach(e => e.textContent = SITE.email);
   $$(".js-name").forEach(e => e.textContent = SITE.name);
