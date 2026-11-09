@@ -4,234 +4,247 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Shubham · Video Editor</title>
-<meta name="description" content="Shubham — video editor for D2C brands and creators. Ads, UGC, reels and YouTube edits.">
+<meta name="description" content="Shubham is a video editor for D2C brands and creators: ads, UGC, reels and YouTube.">
+<meta property="og:title" content="Shubham · Video Editor">
+<meta property="og:description" content="Ads, UGC, reels and YouTube edits that people watch till the end.">
+<meta property="og:image" content="images/shubham.jpg">
+<link rel="icon" href="images/avatar.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#fafaf8; --surface:#ffffff; --ink:#111111; --muted:#6b6b6b; --line:#e7e6e1;
-    --accent:#ff5a1f; --soft:#f1f0eb; --radius:18px;
+    --bg:#fafaf8; --surface:#fff; --ink:#111; --muted:#6b6b6b; --line:#e7e6e1; --soft:#f1f0eb;
+    --accent:#ffe600; --accent-ink:#111; --radius:18px;
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth}
   body{font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.5;-webkit-font-smoothing:antialiased}
   a{color:inherit;text-decoration:none}
   img,video{display:block;max-width:100%}
-  .wrap{max-width:1160px;margin:0 auto;padding:0 24px}
+  button{font:inherit;color:inherit;cursor:pointer}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 24px}
   .serif{font-family:"Instrument Serif",serif;font-weight:400;font-style:italic}
+  section,#contact{scroll-margin-top:76px}
 
   /* nav */
-  header{position:sticky;top:0;z-index:20;background:rgba(250,250,248,.85);backdrop-filter:blur(12px);border-bottom:1px solid transparent;transition:border-color .2s}
+  header{position:sticky;top:0;z-index:20;background:rgba(250,250,248,.86);backdrop-filter:blur(12px);border-bottom:1px solid transparent;transition:border-color .2s}
   header.scrolled{border-color:var(--line)}
-  nav{display:flex;align-items:center;justify-content:space-between;height:68px}
-  .logo{font-weight:700;font-size:18px;letter-spacing:-.02em}
-  .logo span{color:var(--accent)}
+  nav{display:flex;align-items:center;justify-content:space-between;height:68px;gap:16px}
+  .logo{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:-.02em}
+  .logo img{width:34px;height:34px;border-radius:50%;object-fit:cover;box-shadow:0 0 0 2px var(--accent)}
   .links{display:flex;gap:28px;font-size:14px;color:var(--muted)}
   .links a:hover{color:var(--ink)}
-  .btn{display:inline-flex;align-items:center;gap:8px;padding:12px 20px;border-radius:999px;font-weight:600;font-size:14px;transition:transform .15s,background .15s}
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:12px 20px;border-radius:999px;font-weight:600;font-size:14px;border:1px solid transparent;transition:transform .15s}
   .btn:hover{transform:translateY(-1px)}
   .btn-dark{background:var(--ink);color:#fff}
-  .btn-light{background:var(--surface);border:1px solid var(--line)}
+  .btn-light{background:var(--surface);border-color:var(--line)}
+  .btn-accent{background:var(--accent);color:var(--accent-ink)}
   .nav-cta{padding:9px 16px}
 
-  /* hero */
-  .hero{padding:80px 0 56px}
-  .status{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);background:var(--surface);border:1px solid var(--line);padding:6px 12px;border-radius:999px}
+  /* hero: the reel comes first */
+  .hero{padding:20px 0 0}
+  .reel{position:relative;border-radius:24px;overflow:hidden;aspect-ratio:16/9;background:#141414;max-height:78vh;width:100%}
+  .reel video,.reel iframe{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border:0}
+  .reel-empty{position:absolute;inset:0;display:grid;place-items:center;text-align:center;color:#8a8a8a;font-size:14px;padding:24px}
+  .reel-empty b{display:block;color:#fff;font-size:clamp(28px,5vw,56px);letter-spacing:-.03em;margin-bottom:8px}
+  .lower3{position:absolute;left:20px;bottom:20px;display:flex;align-items:center;gap:12px;background:rgba(255,255,255,.95);padding:8px 18px 8px 8px;border-radius:999px;box-shadow:0 8px 30px rgba(0,0,0,.25);animation:slide .7s cubic-bezier(.2,.9,.3,1.2) .3s both}
+  .lower3 img{width:44px;height:44px;border-radius:50%;object-fit:cover;box-shadow:0 0 0 3px var(--accent)}
+  .lower3 b{display:block;font-size:15px;line-height:1.2}
+  .lower3 span{font-size:12px;color:var(--muted)}
+  @keyframes slide{from{opacity:0;transform:translateX(-24px)}to{opacity:1;transform:none}}
+  .sound{position:absolute;right:20px;bottom:20px;display:flex;align-items:center;gap:8px;background:var(--accent);color:var(--accent-ink);border:0;padding:10px 16px;border-radius:999px;font-weight:700;font-size:13px}
+  .reel-tabs{position:absolute;top:16px;left:16px;display:flex;gap:6px;background:rgba(0,0,0,.45);backdrop-filter:blur(8px);padding:5px;border-radius:999px}
+  .reel-tabs button{background:none;border:0;color:#ddd;font-size:13px;font-weight:600;padding:7px 14px;border-radius:999px}
+  .reel-tabs button.active{background:#fff;color:#111}
+
+  .intro{display:grid;grid-template-columns:1.4fr 1fr;gap:40px;align-items:end;padding:44px 0 0}
+  h1{font-size:clamp(36px,5.6vw,72px);line-height:1.02;letter-spacing:-.04em;font-weight:800}
+  .lead{font-size:17px;color:var(--muted);max-width:46ch}
+  .intro .ctas{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
+  .status{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);margin-bottom:14px}
   .dot{width:8px;height:8px;border-radius:50%;background:#22c55e;box-shadow:0 0 0 4px rgba(34,197,94,.15)}
-  h1{font-size:clamp(40px,7vw,84px);line-height:1.02;letter-spacing:-.04em;font-weight:700;margin:24px 0 20px;max-width:14ch}
-  h1 .serif{letter-spacing:-.01em}
-  .lead{font-size:18px;color:var(--muted);max-width:52ch}
-  .hero-ctas{display:flex;gap:12px;margin-top:32px;flex-wrap:wrap}
 
-  .reel{margin-top:56px;position:relative;border-radius:24px;overflow:hidden;aspect-ratio:16/9;background:linear-gradient(135deg,#1c1c1c,#3a3a3a);cursor:pointer}
-  .reel video{width:100%;height:100%;object-fit:cover}
-  .reel-label{position:absolute;left:24px;bottom:24px;display:flex;align-items:center;gap:12px;color:#fff;font-weight:600}
-  .play{width:56px;height:56px;border-radius:50%;background:#fff;display:grid;place-items:center;transition:transform .2s}
-  .reel:hover .play{transform:scale(1.08)}
-  .play svg{width:20px;height:20px;margin-left:3px}
-
-  /* stats */
-  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;margin:56px 0 0}
-  .stat{background:var(--surface);padding:24px}
-  .stat b{display:block;font-size:32px;letter-spacing:-.03em}
-  .stat span{font-size:13px;color:var(--muted)}
-
-  /* sections */
+  /* section heads */
   section{padding:96px 0 0}
-  section,#contact{scroll-margin-top:72px}
-  .eyebrow{font-size:13px;font-weight:600;color:var(--accent);text-transform:uppercase;letter-spacing:.08em}
-  h2{font-size:clamp(32px,4.5vw,52px);letter-spacing:-.035em;line-height:1.05;margin:10px 0 14px;font-weight:700}
-  .sub{color:var(--muted);max-width:56ch}
-  .head-row{display:flex;justify-content:space-between;align-items:end;gap:24px;flex-wrap:wrap;margin-bottom:32px}
+  .eyebrow{display:inline-block;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;background:var(--accent);color:var(--accent-ink);padding:4px 10px;border-radius:6px}
+  h2{font-size:clamp(30px,4.4vw,50px);letter-spacing:-.035em;line-height:1.05;margin:14px 0 12px;font-weight:800}
+  .sub{color:var(--muted);max-width:58ch}
+  .head-row{display:flex;justify-content:space-between;align-items:end;gap:24px;flex-wrap:wrap;margin-bottom:28px}
 
   /* work */
   .filters{display:flex;gap:8px;flex-wrap:wrap}
-  .filter{border:1px solid var(--line);background:var(--surface);padding:8px 16px;border-radius:999px;font:500 14px Inter,sans-serif;cursor:pointer;color:var(--muted)}
+  .filter{border:1px solid var(--line);background:var(--surface);padding:8px 16px;border-radius:999px;font-weight:500;font-size:14px;color:var(--muted)}
   .filter.active{background:var(--ink);color:#fff;border-color:var(--ink)}
-  .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
-  .card{cursor:pointer}
-  .card.wide{grid-column:span 2}
-  .thumb{position:relative;border-radius:var(--radius);overflow:hidden;aspect-ratio:9/16;background:var(--soft)}
-  .card.wide .thumb{aspect-ratio:9/8}
-  .thumb video,.thumb img{width:100%;height:100%;object-fit:cover;transition:transform .4s}
-  .card:hover .thumb video,.card:hover .thumb img{transform:scale(1.04)}
-  .ph{position:absolute;inset:0;display:grid;place-items:center;color:rgba(0,0,0,.35);font-size:13px;font-weight:500}
-  .dur{position:absolute;right:12px;bottom:12px;background:rgba(0,0,0,.65);color:#fff;font-size:12px;padding:3px 8px;border-radius:999px}
-  .meta{padding:12px 4px 0}
-  .meta h3{font-size:15px;font-weight:600;letter-spacing:-.01em}
-  .meta p{font-size:13px;color:var(--muted)}
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  .card{cursor:pointer;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;transition:transform .2s,box-shadow .2s}
+  .card:hover{transform:translateY(-3px);box-shadow:0 14px 40px rgba(0,0,0,.08)}
   .card.hide{display:none}
-
-  /* services */
-  .cards3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-  .svc{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:28px}
-  .svc .ico{font-size:26px}
-  .svc h3{font-size:20px;letter-spacing:-.02em;margin:16px 0 8px}
-  .svc p{color:var(--muted);font-size:15px}
-  .svc ul{list-style:none;margin-top:18px;display:grid;gap:8px;font-size:14px}
-  .svc li::before{content:"→ ";color:var(--accent)}
-
-  /* process */
-  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;counter-reset:s}
-  .step{border-top:2px solid var(--ink);padding-top:18px}
-  .step b{font-size:13px;color:var(--muted)}
-  .step h3{font-size:18px;margin:6px 0 6px;letter-spacing:-.02em}
-  .step p{font-size:14px;color:var(--muted)}
-
-  .tools{display:flex;flex-wrap:wrap;gap:8px;margin-top:40px}
-  .tools span{font-size:13px;padding:6px 12px;border:1px solid var(--line);border-radius:999px;background:var(--surface);color:var(--muted)}
+  .cover{position:relative;aspect-ratio:4/5;background:var(--soft);overflow:hidden}
+  .cover video,.cover img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .ph{position:absolute;inset:0;display:grid;place-items:center;color:rgba(0,0,0,.35);font-size:13px;font-weight:500;text-align:center;padding:12px}
+  .tag{position:absolute;top:12px;left:12px;background:var(--accent);color:var(--accent-ink);font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:4px 9px;border-radius:6px}
+  .clips{position:absolute;right:12px;bottom:12px;background:rgba(0,0,0,.7);color:#fff;font-size:12px;font-weight:600;padding:4px 10px;border-radius:999px}
+  .info{padding:16px 18px 18px}
+  .info h3{font-size:17px;letter-spacing:-.015em}
+  .info .role{font-size:13px;color:var(--muted);margin-top:2px}
+  .info p{font-size:14px;color:#3a3a3a;margin-top:10px}
 
   /* about */
-  .about{display:grid;grid-template-columns:1fr 1.3fr;gap:48px;align-items:center}
-  .portrait{aspect-ratio:4/5;border-radius:24px;background:var(--soft);display:grid;place-items:center;color:var(--muted);font-size:14px;overflow:hidden}
+  .about{display:grid;grid-template-columns:.9fr 1.2fr;gap:56px;align-items:center}
+  .portrait{position:relative;border-radius:24px;overflow:hidden;aspect-ratio:4/5;background:var(--soft)}
   .portrait img{width:100%;height:100%;object-fit:cover}
+  .portrait .badge{position:absolute;left:16px;bottom:16px;background:var(--accent);color:var(--accent-ink);font-weight:800;font-size:13px;padding:8px 14px;border-radius:999px}
   .about p{font-size:17px;color:#333;margin-bottom:14px}
+  .skills{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:24px}
+  .skill{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+  .skill b{display:block;font-size:15px}
+  .skill span{font-size:13px;color:var(--muted)}
 
   /* contact */
-  .contact{margin:96px 0 0;background:var(--ink);color:#fff;border-radius:28px;padding:72px 48px;text-align:center}
-  .contact h2{margin:12px auto 16px;max-width:16ch}
-  .contact .sub{color:#a3a3a3;margin:0 auto}
-  .contact .hero-ctas{justify-content:center}
+  .contact{margin:96px 0 0;background:var(--ink);color:#fff;border-radius:28px;padding:64px 48px;display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
+  .contact h2{margin-top:14px}
+  .contact .sub{color:#a3a3a3}
+  .direct{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px}
   .contact .btn-light{background:transparent;color:#fff;border-color:#3a3a3a}
-  .btn-accent{background:var(--accent);color:#fff}
+  form{display:grid;gap:12px}
+  label{font-size:13px;color:#a3a3a3;display:grid;gap:6px}
+  input,select,textarea{font:inherit;font-size:15px;background:#1c1c1c;border:1px solid #333;color:#fff;border-radius:12px;padding:12px 14px;width:100%}
+  input:focus,select:focus,textarea:focus{outline:2px solid var(--accent);border-color:transparent}
+  textarea{min-height:110px;resize:vertical}
+  form .btn{justify-content:center;border:0;padding:14px}
+  .note{font-size:12px;color:#7a7a7a}
+
   footer{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:32px 0 40px;font-size:13px;color:var(--muted)}
   footer .socials{display:flex;gap:20px}
   footer a:hover{color:var(--ink)}
 
-  /* modal */
-  .modal{position:fixed;inset:0;background:rgba(10,10,10,.88);display:none;align-items:center;justify-content:center;z-index:50;padding:24px}
-  .modal.open{display:flex}
-  .modal-box{width:min(1000px,100%);max-height:90vh;display:flex;justify-content:center}
-  .modal-box video,.modal-box iframe{max-height:86vh;max-width:100%;border-radius:14px;background:#000;border:0}
-  .modal-box iframe{width:100%;aspect-ratio:16/9}
-  .modal-box.tall iframe{width:auto;height:86vh;aspect-ratio:9/16}
-  .close{position:absolute;top:18px;right:22px;color:#fff;font-size:32px;background:none;border:0;cursor:pointer;line-height:1}
+  /* project viewer */
+  .modal{position:fixed;inset:0;background:rgba(10,10,10,.92);display:none;z-index:50;overflow-y:auto;padding:56px 20px 32px}
+  .modal.open{display:block}
+  .viewer{max-width:1000px;margin:0 auto;color:#fff}
+  .stage{display:flex;justify-content:center;background:#000;border-radius:16px;overflow:hidden}
+  .stage video,.stage iframe{max-height:72vh;max-width:100%;border:0;background:#000}
+  .stage iframe{width:100%;aspect-ratio:16/9}
+  .stage.tall iframe{width:auto;height:72vh;aspect-ratio:9/16}
+  .v-meta{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-top:18px}
+  .v-meta h3{font-size:22px;letter-spacing:-.02em}
+  .v-meta p{color:#aaa;font-size:14px;max-width:60ch}
+  .strip{display:flex;gap:10px;margin-top:16px;overflow-x:auto;padding-bottom:6px}
+  .strip button{flex:0 0 auto;background:#1c1c1c;border:2px solid transparent;color:#ddd;border-radius:10px;padding:8px 14px;font-size:13px}
+  .strip button.active{border-color:var(--accent);color:#fff}
+  .close{position:fixed;top:14px;right:18px;color:#fff;font-size:34px;background:none;border:0;line-height:1;z-index:2}
 
   .reveal{opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s ease}
   .reveal.in{opacity:1;transform:none}
 
   @media (max-width:900px){
     .links{display:none}
-    .grid{grid-template-columns:repeat(2,1fr)}
-    .card.wide{grid-column:span 2}
-    .card.wide .thumb{aspect-ratio:16/9}
-    .cards3,.steps{grid-template-columns:1fr 1fr}
-    .about{grid-template-columns:1fr}
-    .portrait{max-width:360px}
-    .stats{grid-template-columns:1fr 1fr}
+    .grid{grid-template-columns:1fr 1fr}
+    .intro,.about,.contact{grid-template-columns:1fr}
+    .intro{gap:16px}
+    .portrait{max-width:420px}
   }
   @media (max-width:560px){
     .wrap{padding:0 16px}
-    .hero{padding:48px 0 32px}
-    .cards3,.steps{grid-template-columns:1fr}
-    .grid{gap:12px}
-    .contact{padding:56px 22px}
+    .reel{border-radius:16px;aspect-ratio:4/5}
+    .lower3{left:12px;bottom:12px;padding-right:14px}
+    .lower3 img{width:36px;height:36px}
+    .sound{right:12px;bottom:auto;top:12px;padding:8px 12px}
+    .reel-tabs{top:auto;bottom:72px;left:12px}
+    .grid{grid-template-columns:1fr;gap:16px}
+    .cover{aspect-ratio:1/1}
+    .skills{grid-template-columns:1fr}
+    .contact{padding:44px 20px;border-radius:22px}
     section{padding-top:72px}
-    .reel{border-radius:18px}
   }
-  @media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}html{scroll-behavior:auto}}
+  @media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.lower3{animation:none}html{scroll-behavior:auto}}
 </style>
 </head>
 <body>
 
-<!-- ============================================================
-     ✏️  EDIT YOUR DETAILS HERE (the rest of the page updates itself)
-     ============================================================ -->
+<!-- ================================================================
+     ✏️  EDIT YOUR DETAILS HERE — the rest of the page builds itself
+     ================================================================ -->
 <script>
 const SITE = {
-  whatsapp: "919999999999",          // country code + number, no + or spaces
+  name: "Shubham",
+  role: "Video Editor · Ads, UGC & YouTube",
+  whatsapp: "919999999999",            // country code + number, no + or spaces
   email: "hello@example.com",
   instagram: "https://instagram.com/yourhandle",
   youtube: "https://youtube.com/@yourhandle",
   linkedin: "https://linkedin.com/in/yourhandle",
-  showreel: { src: "videos/showreel.mp4", youtube: "" }, // use a file OR a YouTube video ID
+  // One reel per kind of client. Use a file (src) OR a YouTube video ID (youtube).
+  reels: [
+    { label: "Brand & ads reel", src: "videos/reel-brands.mp4", youtube: "" },
+    { label: "Creator reel",     src: "videos/reel-creators.mp4", youtube: "" },
+  ],
 };
 
-/* Your work. For each video use ONE of:
-     src:     "videos/file.mp4"   (a file in the videos folder, keep it under ~20 MB)
-     youtube: "dQw4w9WgXcQ"       (just the ID from the YouTube link; unlisted works)
-   poster: optional thumbnail image, e.g. "videos/file.jpg"
-   category: "ads" | "ugc" | "reels" | "youtube"
-   wide: true  -> 16:9 video (takes two columns). Leave it out for 9:16 vertical. */
-const WORK = [
-  { title: "Skincare · AI UGC testimonial", client: "D2C beauty brand", category: "ugc",     src: "videos/work1.mp4", duration: "0:45" },
-  { title: "Launch ad · hook test",         client: "Ayurvedic brand",  category: "ads",     src: "videos/work2.mp4", duration: "0:30" },
-  { title: "Podcast clip · captions",       client: "Creator",          category: "reels",   src: "videos/work3.mp4", duration: "0:58" },
-  { title: "Unboxing reel",                 client: "D2C brand",        category: "ugc",     src: "videos/work4.mp4", duration: "0:35" },
-  { title: "YouTube vlog edit",             client: "Travel creator",   category: "youtube", src: "videos/work5.mp4", duration: "12:40", wide: true },
-  { title: "Product skit ad",               client: "Food brand",       category: "ads",     src: "videos/work6.mp4", duration: "0:40" },
-  { title: "Talking head reel",             client: "Coach",            category: "reels",   src: "videos/work7.mp4", duration: "0:52" },
-  { title: "Brand film",                    client: "Lifestyle brand",  category: "youtube", src: "videos/work8.mp4", duration: "2:10", wide: true },
+/* Your projects. Every project should show SEVERAL clips, not just one.
+   type: "ads" | "ugc" | "reels" | "youtube"   (drives the label + filter)
+   role: what YOU did on it.   did: one line on the result or the idea.
+   cover: optional image; otherwise the first clip is used.
+   clips: each { label, src: "videos/x.mp4" } or { label, youtube: "VIDEO_ID" }, add tall:true for 9:16 */
+const PROJECTS = [
+  { title: "Skincare brand · AI UGC series", client: "Ayurvedic skincare brand", type: "ugc",
+    role: "Script, AI generation, edit, sound", did: "Testimonial-style ads made with AI creators, cut with 3 hook variants each for Meta testing.",
+    clips: [ { label: "Hook A", src: "videos/kc-1.mp4", tall: true }, { label: "Hook B", src: "videos/kc-2.mp4", tall: true }, { label: "Full ad", src: "videos/kc-3.mp4", tall: true } ] },
+  { title: "Launch ad", client: "D2C brand", type: "ads",
+    role: "Edit, motion text, sound design", did: "Fast-paced product launch ad built around a 2-second hook.",
+    clips: [ { label: "Main cut", src: "videos/ad-1.mp4", tall: true }, { label: "15s cutdown", src: "videos/ad-2.mp4", tall: true } ] },
+  { title: "Podcast clips", client: "Creator", type: "reels",
+    role: "Edit, captions, sound", did: "Long podcast turned into short reels with punchy captions and B-roll.",
+    clips: [ { label: "Clip 1", src: "videos/pod-1.mp4", tall: true }, { label: "Clip 2", src: "videos/pod-2.mp4", tall: true } ] },
+  { title: "YouTube vlog", client: "Creator", type: "youtube",
+    role: "Edit, colour, sound design", did: "Story-led vlog edit with music changes and retention-focused pacing.",
+    clips: [ { label: "Full video", youtube: "" } ] },
 ];
 </script>
 
 <header id="top">
   <div class="wrap">
     <nav>
-      <a class="logo" href="#top">Shubham<span>.</span></a>
-      <div class="links">
-        <a href="#work">Work</a><a href="#services">Services</a><a href="#process">Process</a><a href="#about">About</a>
-      </div>
-      <a class="btn btn-dark nav-cta" href="#contact">Let's talk</a>
+      <a class="logo" href="#top"><img src="images/avatar.jpg" alt=""><span class="js-name">Shubham</span></a>
+      <div class="links"><a href="#work">Work</a><a href="#about">About</a><a href="#contact">Contact</a></div>
+      <a class="btn btn-dark nav-cta" href="#contact">Hire me</a>
     </nav>
   </div>
 </header>
 
 <main class="wrap">
-  <section class="hero" style="padding-top:0">
-    <div style="padding-top:72px">
-      <span class="status"><span class="dot"></span>Taking new projects this month</span>
-      <h1>Edits people <span class="serif">actually</span> watch till the end.</h1>
-      <p class="lead">I'm Shubham, a video editor for D2C brands and creators. Scroll-stopping ads, AI UGC, reels and YouTube videos with tight pacing, clean captions and sound that hits.</p>
-      <div class="hero-ctas">
-        <a class="btn btn-dark" href="#work">See my work ↓</a>
-        <a class="btn btn-light js-wa" href="#">WhatsApp me</a>
-      </div>
+  <!-- The showreel is the first thing people see: no long intro before the work -->
+  <section class="hero" style="padding-top:20px">
+    <div class="reel" id="reel">
+      <div class="reel-empty" id="reelEmpty"><div><b>Showreel coming soon</b>Add your reel in <code>videos/</code></div></div>
+      <video id="reelVideo" muted loop playsinline autoplay preload="metadata"></video>
+      <div class="reel-tabs" id="reelTabs"></div>
+      <div class="lower3"><img src="images/avatar.jpg" alt=""><div><b class="js-name">Shubham</b><span class="js-role">Video Editor</span></div></div>
+      <button class="sound" id="soundBtn" aria-label="Turn sound on">🔊 Sound on</button>
     </div>
 
-    <div class="reel reveal" id="reel" role="button" aria-label="Play showreel">
-      <video id="reelVideo" muted loop playsinline preload="metadata"></video>
-      <div class="reel-label">
-        <span class="play"><svg viewBox="0 0 24 24" fill="#111"><path d="M7 4v16l13-8z"/></svg></span>
-        Watch showreel
+    <div class="intro">
+      <div>
+        <span class="status"><span class="dot"></span>Taking new projects</span>
+        <h1>Edits people <span class="serif">actually</span> watch till the end.</h1>
       </div>
-    </div>
-
-    <div class="stats reveal">
-      <div class="stat"><b>150+</b><span>videos edited</span></div>
-      <div class="stat"><b>25+</b><span>brands & creators</span></div>
-      <div class="stat"><b>48h</b><span>first cut delivery</span></div>
-      <div class="stat"><b>10M+</b><span>views generated</span></div>
+      <div>
+        <p class="lead">I edit ads, UGC, reels and YouTube videos for D2C brands and creators. Strong hooks, tight pacing, clean captions and sound design that keeps people watching.</p>
+        <div class="ctas">
+          <a class="btn btn-dark" href="#work">See projects ↓</a>
+          <a class="btn btn-light js-wa" href="#">WhatsApp me</a>
+        </div>
+      </div>
     </div>
   </section>
 
   <section id="work">
     <div class="head-row">
       <div>
-        <div class="eyebrow">Selected work</div>
-        <h2>Ads, UGC, reels <span class="serif">&</span> YouTube</h2>
-        <p class="sub">Tap any video to watch it with sound.</p>
+        <span class="eyebrow">Work</span>
+        <h2>Projects, not just clips</h2>
+        <p class="sub">Each project shows what it was, what I did, and several cuts from it. Tap one to watch with sound.</p>
       </div>
       <div class="filters" id="filters">
         <button class="filter active" data-f="all">All</button>
@@ -244,71 +257,49 @@ const WORK = [
     <div class="grid" id="grid"></div>
   </section>
 
-  <section id="services">
-    <div class="eyebrow">Services</div>
-    <h2>What I can make for you</h2>
-    <p class="sub" style="margin-bottom:32px">For brands that need ads that sell, and creators who need content that keeps people watching.</p>
-    <div class="cards3">
-      <div class="svc reveal">
-        <div class="ico">📈</div>
-        <h3>Performance ads</h3>
-        <p>Meta and YouTube ads built around a strong hook, edited to convert.</p>
-        <ul><li>Multiple hook variants</li><li>Captions & safe zones</li><li>9:16, 4:5 and 1:1 exports</li></ul>
-      </div>
-      <div class="svc reveal">
-        <div class="ico">🤳</div>
-        <h3>UGC & AI UGC</h3>
-        <p>Testimonials, unboxings and rants that feel native to the feed.</p>
-        <ul><li>Real or AI-generated creators</li><li>Hinglish / English scripts</li><li>B-roll & product shots</li></ul>
-      </div>
-      <div class="svc reveal">
-        <div class="ico">🎬</div>
-        <h3>Reels & YouTube</h3>
-        <p>Short-form and long-form edits for creators who post every week.</p>
-        <ul><li>Retention-focused pacing</li><li>Motion text & sound design</li><li>Thumbnails on request</li></ul>
-      </div>
-    </div>
-  </section>
-
-  <section id="process">
-    <div class="eyebrow">Process</div>
-    <h2>Simple, fast, no back-and-forth</h2>
-    <div class="steps" style="margin-top:32px">
-      <div class="step reveal"><b>01</b><h3>Brief</h3><p>A quick call or WhatsApp chat about your goal, audience and references.</p></div>
-      <div class="step reveal"><b>02</b><h3>First cut</h3><p>You get a first version within 48 hours of receiving the footage.</p></div>
-      <div class="step reveal"><b>03</b><h3>Revisions</h3><p>Clear feedback, quick changes, until it feels right.</p></div>
-      <div class="step reveal"><b>04</b><h3>Delivery</h3><p>Final files in every size you need, ready to post or run as ads.</p></div>
-    </div>
-    <div class="tools">
-      <span>Premiere Pro</span><span>DaVinci Resolve</span><span>After Effects</span><span>CapCut</span><span>Google Flow / Veo</span><span>ElevenLabs</span><span>ChatGPT</span>
-    </div>
-  </section>
-
   <section id="about">
     <div class="about">
-      <div class="portrait reveal" id="portrait">Add your photo: <code>&nbsp;videos/me.jpg</code></div>
+      <div class="portrait reveal"><img src="images/shubham.jpg" alt="Shubham, video editor"><span class="badge">👋 Hi, I'm Shubham</span></div>
       <div class="reveal">
-        <div class="eyebrow">About</div>
-        <h2>Hi, I'm Shubham <span class="serif">👋</span></h2>
-        <p>I edit videos for D2C brands and creators. My job is simple: make people stop scrolling, keep watching, and do something at the end.</p>
-        <p>I've worked on ads, AI UGC, podcasts, reels and YouTube videos, from scripting and AI generation to the final edit, captions and sound.</p>
-        <p style="color:var(--muted);font-size:15px">Based in India · Working with clients everywhere</p>
+        <span class="eyebrow">About</span>
+        <h2>I treat every edit like it has to <span class="serif">earn</span> the next second.</h2>
+        <p>I'm a video editor working with D2C brands and creators. For brands, I make ads that stop the scroll and sell. For creators, I make videos people finish.</p>
+        <p>I handle the full edit: pacing, captions, sound design, music, colour, and AI-generated shots when the budget doesn't allow a shoot.</p>
+        <div class="skills">
+          <div class="skill"><b>Hooks & pacing</b><span>First 3 seconds that stop the scroll</span></div>
+          <div class="skill"><b>Sound design</b><span>SFX, music changes, clean dialogue levels</span></div>
+          <div class="skill"><b>Captions & motion text</b><span>Readable, on-brand, safe-zone ready</span></div>
+          <div class="skill"><b>AI video</b><span>AI UGC and shots that don't look like AI</span></div>
+        </div>
       </div>
     </div>
   </section>
 
   <div class="contact reveal" id="contact">
-    <div class="eyebrow">Contact</div>
-    <h2>Got footage? Let's make it <span class="serif">hit.</span></h2>
-    <p class="sub">Tell me what you're working on. I usually reply within a few hours.</p>
-    <div class="hero-ctas">
-      <a class="btn btn-accent js-wa" href="#">WhatsApp me</a>
-      <a class="btn btn-light js-mail" href="#">Email me</a>
+    <div>
+      <span class="eyebrow">Contact</span>
+      <h2>Got a project? Let's make it <span class="serif">hit.</span></h2>
+      <p class="sub">Tell me what you need. I usually reply within a few hours.</p>
+      <div class="direct">
+        <a class="btn btn-accent js-wa" href="#">WhatsApp me</a>
+        <a class="btn btn-light js-mail" href="#">Email me</a>
+      </div>
     </div>
+    <form id="brief">
+      <label>Your name<input name="name" required autocomplete="name"></label>
+      <label>What do you need?
+        <select name="type">
+          <option>Ads for my brand</option><option>UGC / AI UGC</option><option>Reels / short-form</option><option>YouTube videos</option><option>Something else</option>
+        </select>
+      </label>
+      <label>Tell me a bit more<textarea name="msg" placeholder="Brand or channel, how many videos, deadline…"></textarea></label>
+      <button class="btn btn-accent" type="submit">Send on WhatsApp →</button>
+      <span class="note">Opens WhatsApp with your message ready to send.</span>
+    </form>
   </div>
 
   <footer>
-    <span>© <span id="yr"></span> Shubham. All rights reserved.</span>
+    <span>© <span id="yr"></span> <span class="js-name">Shubham</span></span>
     <div class="socials">
       <a class="js-ig" href="#" target="_blank" rel="noopener">Instagram</a>
       <a class="js-yt" href="#" target="_blank" rel="noopener">YouTube</a>
@@ -319,93 +310,139 @@ const WORK = [
 
 <div class="modal" id="modal" aria-hidden="true">
   <button class="close" id="close" aria-label="Close">×</button>
-  <div class="modal-box" id="modalBox"></div>
+  <div class="viewer">
+    <div class="stage" id="stage"></div>
+    <div class="strip" id="strip"></div>
+    <div class="v-meta"><div><h3 id="vTitle"></h3><p id="vRole"></p></div><p id="vDid"></p></div>
+  </div>
 </div>
 
 <script>
+  const $ = s => document.querySelector(s), $$ = s => document.querySelectorAll(s);
+  const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+  const TYPE = { ads:"Ad", ugc:"UGC", reels:"Reel", youtube:"YouTube" };
+
   // contact links
-  const waMsg = encodeURIComponent("Hi Shubham, I saw your portfolio and want to talk about a video project.");
-  document.querySelectorAll(".js-wa").forEach(a => { a.href = `https://wa.me/${SITE.whatsapp}?text=${waMsg}`; a.target = "_blank"; a.rel = "noopener"; });
-  document.querySelectorAll(".js-mail").forEach(a => a.href = `mailto:${SITE.email}`);
-  document.querySelector(".js-ig").href = SITE.instagram;
-  document.querySelector(".js-yt").href = SITE.youtube;
-  document.querySelector(".js-li").href = SITE.linkedin;
-  document.getElementById("yr").textContent = new Date().getFullYear();
+  const wa = text => `https://wa.me/${SITE.whatsapp}?text=${encodeURIComponent(text)}`;
+  $$(".js-wa").forEach(a => { a.href = wa(`Hi ${SITE.name}, I saw your portfolio and want to talk about a video project.`); a.target = "_blank"; a.rel = "noopener"; });
+  $$(".js-mail").forEach(a => a.href = `mailto:${SITE.email}`);
+  $(".js-ig").href = SITE.instagram; $(".js-yt").href = SITE.youtube; $(".js-li").href = SITE.linkedin;
+  $$(".js-name").forEach(e => e.textContent = SITE.name);
+  $$(".js-role").forEach(e => e.textContent = SITE.role);
+  $("#yr").textContent = new Date().getFullYear();
 
-  // portrait (shows only if videos/me.jpg exists)
-  const pimg = new Image();
-  pimg.onload = () => { const p = document.getElementById("portrait"); p.textContent = ""; pimg.alt = "Shubham"; p.appendChild(pimg); };
-  pimg.src = "videos/me.jpg";
+  $("#brief").addEventListener("submit", e => {
+    e.preventDefault();
+    const f = new FormData(e.target);
+    const text = `Hi ${SITE.name}, I'm ${f.get("name")}.\nI need: ${f.get("type")}\n${f.get("msg") || ""}`.trim();
+    window.open(wa(text), "_blank", "noopener");
+  });
 
-  // showreel preview
-  const reelVideo = document.getElementById("reelVideo");
-  if (SITE.showreel.src) { reelVideo.src = SITE.showreel.src; reelVideo.play().catch(()=>{}); }
-  document.getElementById("reel").addEventListener("click", () => openVideo(SITE.showreel, true));
-
-  // work grid
-  const grid = document.getElementById("grid");
-  const labels = { ads:"Ad", ugc:"UGC", reels:"Reel", youtube:"YouTube" };
-  WORK.forEach((w, i) => {
-    const card = document.createElement("div");
-    card.className = "card reveal" + (w.wide ? " wide" : "");
-    card.dataset.cat = w.category;
-    const thumb = document.createElement("div");
-    thumb.className = "thumb";
-    thumb.innerHTML = `<div class="ph">${w.wide ? "16:9" : "9:16"} · add video</div>`;
-    if (w.poster) {
-      const img = new Image(); img.src = w.poster; img.alt = w.title; img.loading = "lazy";
-      img.onload = () => thumb.querySelector(".ph")?.remove();
-      thumb.prepend(img);
-    } else if (w.youtube) {
-      const img = new Image(); img.src = `https://i.ytimg.com/vi/${w.youtube}/hqdefault.jpg`; img.alt = w.title; img.loading = "lazy";
-      img.onload = () => thumb.querySelector(".ph")?.remove();
-      thumb.prepend(img);
-    } else if (w.src) {
-      const v = document.createElement("video");
-      v.muted = true; v.loop = true; v.playsInline = true; v.preload = "metadata";
-      v.src = w.src + "#t=0.5";
-      v.addEventListener("loadeddata", () => thumb.querySelector(".ph")?.remove());
-      card.addEventListener("mouseenter", () => v.play().catch(()=>{}));
-      card.addEventListener("mouseleave", () => v.pause());
-      thumb.prepend(v);
+  // showreel with tabs (one reel per kind of client)
+  const reelVideo = $("#reelVideo"), reelBox = $("#reel"), soundBtn = $("#soundBtn");
+  let reelIframe = null;
+  function showReel(i) {
+    const r = SITE.reels[i];
+    $$("#reelTabs button").forEach((b, j) => b.classList.toggle("active", i === j));
+    reelIframe?.remove(); reelIframe = null;
+    reelVideo.muted = true; soundBtn.textContent = "🔊 Sound on";
+    if (r.youtube) {
+      reelVideo.removeAttribute("src"); reelVideo.load();
+      reelIframe = document.createElement("iframe");
+      reelIframe.src = `https://www.youtube.com/embed/${r.youtube}?autoplay=1&mute=1&loop=1&playlist=${r.youtube}&controls=0&rel=0&playsinline=1`;
+      reelIframe.allow = "autoplay; fullscreen";
+      reelBox.insertBefore(reelIframe, $("#reelTabs"));
+      $("#reelEmpty").hidden = true; soundBtn.hidden = true;
+    } else {
+      soundBtn.hidden = true;
+      reelVideo.src = r.src;
+      reelVideo.play().catch(() => {});
     }
-    if (w.duration) thumb.insertAdjacentHTML("beforeend", `<span class="dur">${w.duration}</span>`);
-    card.appendChild(thumb);
-    card.insertAdjacentHTML("beforeend", `<div class="meta"><h3>${w.title}</h3><p>${labels[w.category] || ""} · ${w.client || ""}</p></div>`);
-    card.addEventListener("click", () => openVideo(w, !!w.wide));
-    grid.appendChild(card);
-  });
-
-  // filters
-  document.getElementById("filters").addEventListener("click", e => {
-    const b = e.target.closest(".filter"); if (!b) return;
-    document.querySelectorAll(".filter").forEach(x => x.classList.toggle("active", x === b));
-    const f = b.dataset.f;
-    document.querySelectorAll(".card").forEach(c => c.classList.toggle("hide", f !== "all" && c.dataset.cat !== f));
-  });
-
-  // modal player
-  const modal = document.getElementById("modal"), box = document.getElementById("modalBox");
-  function openVideo(item, wide) {
-    box.className = "modal-box" + (wide ? "" : " tall");
-    if (item.youtube) {
-      box.innerHTML = `<iframe src="https://www.youtube.com/embed/${item.youtube}?autoplay=1&rel=0" allow="autoplay; fullscreen" allowfullscreen></iframe>`;
-    } else if (item.src) {
-      box.innerHTML = `<video src="${item.src}" controls autoplay playsinline></video>`;
-    } else return;
-    modal.classList.add("open"); modal.setAttribute("aria-hidden","false");
-    reelVideo.pause();
   }
-  function closeModal(){ modal.classList.remove("open"); modal.setAttribute("aria-hidden","true"); box.innerHTML = ""; if (SITE.showreel.src) reelVideo.play().catch(()=>{}); }
-  document.getElementById("close").onclick = closeModal;
+  soundBtn.hidden = true;
+  reelVideo.addEventListener("loadeddata", () => { $("#reelEmpty").hidden = true; soundBtn.hidden = false; });
+  reelVideo.addEventListener("error", () => { $("#reelEmpty").hidden = false; soundBtn.hidden = true; });
+  if (SITE.reels.length > 1) SITE.reels.forEach((r, i) => {
+    const b = document.createElement("button"); b.textContent = r.label; b.onclick = () => showReel(i); $("#reelTabs").appendChild(b);
+  }); else $("#reelTabs").remove();
+  if (SITE.reels.length) showReel(0);
+  soundBtn.onclick = () => {
+    reelVideo.muted = !reelVideo.muted;
+    if (!reelVideo.muted) { reelVideo.currentTime = 0; reelVideo.play(); }
+    soundBtn.textContent = reelVideo.muted ? "🔊 Sound on" : "🔇 Mute";
+  };
+
+  // project cards
+  const hasClip = c => c && (c.src || c.youtube);
+  PROJECTS.forEach((p, i) => {
+    const first = p.clips.find(hasClip);
+    const card = document.createElement("article");
+    card.className = "card reveal"; card.dataset.cat = p.type;
+    card.innerHTML = `
+      <div class="cover"><div class="ph">Add clips for this project<br>in <code>videos/</code></div>
+        <span class="tag">${esc(TYPE[p.type] || p.type)}</span>
+        ${p.clips.length > 1 ? `<span class="clips">▶ ${p.clips.length} cuts</span>` : ""}</div>
+      <div class="info"><h3>${esc(p.title)}</h3><div class="role">${esc(p.client)} · ${esc(p.role)}</div><p>${esc(p.did)}</p></div>`;
+    const cover = card.querySelector(".cover");
+    const clearPh = () => cover.querySelector(".ph")?.remove();
+    if (p.cover) {
+      const img = new Image(); img.src = p.cover; img.alt = p.title; img.loading = "lazy"; img.onload = clearPh; cover.prepend(img);
+    } else if (first?.youtube) {
+      const img = new Image(); img.src = `https://i.ytimg.com/vi/${first.youtube}/hqdefault.jpg`; img.alt = p.title; img.loading = "lazy"; img.onload = clearPh; cover.prepend(img);
+    } else if (first?.src) {
+      const v = document.createElement("video");
+      v.muted = true; v.loop = true; v.playsInline = true; v.preload = "metadata"; v.src = first.src + "#t=0.5";
+      v.addEventListener("loadeddata", clearPh);
+      card.addEventListener("mouseenter", () => v.play().catch(() => {}));
+      card.addEventListener("mouseleave", () => v.pause());
+      cover.prepend(v);
+    }
+    card.addEventListener("click", () => openProject(i));
+    $("#grid").appendChild(card);
+  });
+
+  $("#filters").addEventListener("click", e => {
+    const b = e.target.closest(".filter"); if (!b) return;
+    $$(".filter").forEach(x => x.classList.toggle("active", x === b));
+    $$(".card").forEach(c => c.classList.toggle("hide", b.dataset.f !== "all" && c.dataset.cat !== b.dataset.f));
+  });
+
+  // project viewer: main player + strip of every cut from the project
+  const modal = $("#modal"), stage = $("#stage");
+  function playClip(c) {
+    stage.className = "stage" + (c.tall ? " tall" : "");
+    if (c.youtube) stage.innerHTML = `<iframe src="https://www.youtube.com/embed/${encodeURIComponent(c.youtube)}?autoplay=1&rel=0" allow="autoplay; fullscreen" allowfullscreen></iframe>`;
+    else if (c.src) stage.innerHTML = `<video src="${esc(c.src)}" controls autoplay playsinline></video>`;
+    else stage.innerHTML = `<div style="padding:80px 20px;color:#888">This clip hasn't been added yet.</div>`;
+  }
+  function openProject(i) {
+    const p = PROJECTS[i];
+    $("#vTitle").textContent = p.title;
+    $("#vRole").textContent = `${TYPE[p.type] || p.type} · ${p.client} · ${p.role}`;
+    $("#vDid").textContent = p.did;
+    const strip = $("#strip"); strip.innerHTML = "";
+    p.clips.forEach((c, j) => {
+      const b = document.createElement("button"); b.textContent = c.label || `Cut ${j + 1}`;
+      b.onclick = () => { $$("#strip button").forEach(x => x.classList.toggle("active", x === b)); playClip(c); };
+      strip.appendChild(b);
+    });
+    strip.hidden = p.clips.length < 2;
+    strip.firstChild?.click();
+    modal.classList.add("open"); modal.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden"; reelVideo.pause();
+  }
+  function closeModal() {
+    modal.classList.remove("open"); modal.setAttribute("aria-hidden", "true");
+    stage.innerHTML = ""; document.body.style.overflow = ""; reelVideo.play().catch(() => {});
+  }
+  $("#close").onclick = closeModal;
   modal.addEventListener("click", e => { if (e.target === modal) closeModal(); });
   document.addEventListener("keydown", e => { if (e.key === "Escape") closeModal(); });
 
   // header border + reveal on scroll
-  const header = document.querySelector("header");
-  addEventListener("scroll", () => header.classList.toggle("scrolled", scrollY > 8), { passive:true });
-  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), { threshold:.12 });
-  document.querySelectorAll(".reveal").forEach(el => io.observe(el));
+  addEventListener("scroll", () => $("header").classList.toggle("scrolled", scrollY > 8), { passive: true });
+  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), { threshold: .12 });
+  $$(".reveal").forEach(el => io.observe(el));
 </script>
 </body>
 </html>
